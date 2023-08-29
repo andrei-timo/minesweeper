@@ -37,7 +37,6 @@ export function generateMap({rows=10, columns=10, minesTotal=10}: boardSettings)
             minesCount++;
         }
     }
-    console.log(board)
 
     // Calculate the number of adjacent mines for each cell
     for (let row = 0; row < rows; row++) {

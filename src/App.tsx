@@ -35,7 +35,7 @@ function App() {
             boardMapCopy[cellX][cellY].isOpen = true
             setBoardMap(boardMapCopy)
             if (boardMapCopy[cellX][cellY].mineCount === 0) {
-                for (let i = 0; i < 8; i++) {
+                for (let i = 0; i < 3; i++) {
                     onClick(cellX - 1, cellY - 1)
                 }
             }
