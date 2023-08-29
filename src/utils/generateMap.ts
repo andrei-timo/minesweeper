@@ -1,16 +1,22 @@
 export type cellObj = {
-    bombCount?: number,
-    isBomb: boolean,
+    mineCount?: number,
+    isMine: boolean,
     isFlag: boolean,
     isOpen: boolean,
 }
-export function generateMap(rows: number, columns: number, totalMines: number) {
-    const board: cellObj[][] = [];
+export type boardMap = cellObj[][]
+export type boardSettings = {
+    rows: number,
+    columns: number,
+    minesTotal: number,
+}
+export function generateMap({rows=10, columns=10, minesTotal=10}: boardSettings): cellObj[][] {
+    const board: boardMap = [];
 
     // Create the empty board
     for (let i = 0; i < rows; i++) {
         board[i] = Array(columns).fill({
-            isBomb: false,
+            isMine: false,
             isFlag: false,
             isOpen: false,
         });
@@ -19,13 +25,13 @@ export function generateMap(rows: number, columns: number, totalMines: number) {
     let minesCount = 0;
 
     // Randomly place mines on the board
-    while (minesCount < totalMines) {
+    while (minesCount < minesTotal) {
         const randomRow = Math.floor(Math.random() * rows);
         const randomCol = Math.floor(Math.random() * columns);
 
         // Place a mine at the random position if there is no mine already
-        if (!board[randomRow][randomCol].isBomb) {
-            board[randomRow][randomCol].isBomb = true;
+        if (!board[randomRow][randomCol].isMine) {
+            board[randomRow][randomCol].isMine = true;
             minesCount++;
         }
     }
@@ -33,7 +39,7 @@ export function generateMap(rows: number, columns: number, totalMines: number) {
     // Calculate the number of adjacent mines for each cell
     for (let row = 0; row < rows; row++) {
         for (let col = 0; col < columns; col++) {
-            if (!board[row][col].isBomb) {
+            if (!board[row][col].isMine) {
                 let count = 0;
 
                 // Check adjacent cells for mines
@@ -53,14 +59,14 @@ export function generateMap(rows: number, columns: number, totalMines: number) {
                         }
 
                         // Increment count if the adjacent cell is a mine
-                        if (board[newRow][newCol] === "mine") {
+                        if (board[newRow][newCol].isMine) {
                             count++;
                         }
                     }
                 }
 
                 // Assign the number of adjacent mines to the cell
-                board[row][col] = count;
+                board[row][col].mineCount = count;
             }
         }
     }
