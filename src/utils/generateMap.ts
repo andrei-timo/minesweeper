@@ -15,12 +15,14 @@ export function generateMap({rows=10, columns=10, minesTotal=10}: boardSettings)
 
     // Create the empty board
     for (let i = 0; i < rows; i++) {
-        board[i] = Array(columns).fill({
-            isMine: false,
-            isFlag: false,
-            isOpen: false,
-        });
-    }
+        board[i] = []
+        for (let j = 0; j < columns; j++) {
+        board[i][j] = {
+                isMine: false,
+                isFlag: false,
+                isOpen: false,
+        }
+    }}
 
     let minesCount = 0;
 
