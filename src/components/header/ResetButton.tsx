@@ -1,6 +1,6 @@
 import React from 'react';
 
-function ResetButton(props):React.FC {
+function ResetButton() {
     return (
         <div></div>
     );

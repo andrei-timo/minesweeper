@@ -4,6 +4,7 @@ import {boardMap, cellObj} from "../../utils/generateMap";
 type BoardProps = {
     boardMap: boardMap,
 }
+
 const Board: React.FC<BoardProps> = ({ boardMap }) => {
     return (
         <div>

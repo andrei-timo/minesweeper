@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+.cell {
+  width: '24px';
+  height: '24px';
+  line-height: '23px';
+  font-size: 10px;
+}
