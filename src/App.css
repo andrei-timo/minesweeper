@@ -38,8 +38,32 @@
 }
 
 .cell {
-  width: '24px';
-  height: '24px';
-  line-height: '23px';
+  width: 24px;
+  height: 24px;
+  line-height: 23px;
   font-size: 10px;
+  background-size: 100%;
+  font-weight: 700;
+}
+
+.cell-closed {
+  background-image: url('https://minesweeper.online/img/skins/hd/closed.svg?v=3');
+}
+
+.cell-mine {
+  background-image: url('https://minesweeper.online/img/skins/hd/mine.svg?v=3');
+}
+
+.cell-open {
+  background-image: url('https://minesweeper.online/img/skins/hd/type0.svg?v=3');
+}
+
+.cell-flag {
+  background-image: url('https://minesweeper.online/img/skins/hd/flag.svg?v=3');
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(10, 24px);
+  /* grid-template-rows: repeat(10, 24px); */
 }
