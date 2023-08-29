@@ -20,44 +20,43 @@ function App() {
     }
 
     const [openCells, setOpenCells] = useState(0)
+    const onClick = (cellX: number, cellY: number) => {
+        if (cellX < 0 || cellY < 0
+            || cellX >= boardSettings.columns
+            || cellY >= boardSettings.rows) return
+
+        const cell = boardMap[cellX][cellY]
+        if (cell.isMine) {
+            setGameStatus('lost')
+        } else {
+            setOpenCells((prevState) => prevState + 1)
+        }
+        // cell.isOpen = true
+        const boardMapCopy = [...[...boardMap]]
+        boardMapCopy[cellX][cellY].isOpen = true
+        setBoardMap(boardMapCopy)
+        if (boardMapCopy[cellX][cellY].mineCount === 0) {
+            for (let i = -1; i <= 1; i++) {
+                for (let j = -1; j <= 1; j++) {
+                    if (cellX + i < 0 || cellY + j < 0
+                        || cellX + i >= boardSettings.columns
+                        || cellY + j >= boardSettings.rows) continue
+                    if (boardMap[cellX + i][cellY + j].isOpen) continue
+                    if (i === 0 && j === 0) continue;
+                    onClick(cellX + i, cellY + j)
+                }
+            }
+        }
+    }
     const handleClick = (cellX: number, cellY: number) => {
-        const onClick = (cellX: number, cellY: number) => {
-            if (cellX < 0 || cellY < 0
-                || cellX > boardSettings.columns
-                || cellY > boardSettings.rows) return
-
-            const cell = boardMap[cellX][cellY]
-            if (cell.isMine) {
-                setGameStatus('lost')
-            }
-            cell.isOpen = true
-            if (!cell.isMine) {
-                setOpenCells((prevState) => prevState + 1)
-                if (openCells === boardSettings.rows * boardSettings.columns - boardSettings.minesTotal) {
-                    setGameStatus('won')
-                }
-            }
-
-            const boardMapCopy = [...[...boardMap]]
-            boardMapCopy[cellX][cellY].isOpen = true
-            setBoardMap(boardMapCopy)
-            if (boardMapCopy[cellX][cellY].mineCount === 0) {
-                for (let i = -1; i < 2; i++) {
-                    for (let j = -1; j < 2; j++) {
-                        if (i === 0 && j === 0) return;
-                        onClick(cellX + i, cellY + j)
-                    }
-                }
-            }
-            switch (gameStatus) {
-                case 'won':
-                case 'lost':
-                    return
-                case 'notStarted':
-                    setGameStatus('inGame')
-                default:
-                    onClick(cellX, cellY)
-            }
+        switch (gameStatus) {
+            case 'won':
+            case 'lost':
+                return
+            case 'notStarted':
+                setGameStatus('inGame')
+            default:
+                onClick(cellX, cellY)
         }
     }
     const handleRightClick = (cellX: number, cellY: number) => {
@@ -94,6 +93,12 @@ function App() {
         if (gameStatus === 'won') handleWin()
         if (gameStatus === 'lost') handleLose()
     }, [gameStatus])
+
+    useEffect(() => {
+        if (openCells === boardSettings.rows * boardSettings.columns - boardSettings.minesTotal) {
+            setGameStatus('won')
+        }
+    }, [openCells]);
 
     return (
         <div className="App">
