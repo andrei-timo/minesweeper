@@ -1,9 +1,10 @@
 import React from 'react';
+import { cellObj as CellObj } from "../../utils/generateMap";
 
-function Cell({cellObj: cellObj}) {
+const Cell = ({cell}: {cell: CellObj}) => {
     return (
-        <div>
-
+        <div className='cell'>
+            {/* {cellObj} */}
         </div>
     );
 }
