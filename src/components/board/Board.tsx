@@ -1,12 +1,16 @@
 import React from 'react';
+import {boardMap, cellObj} from "../../utils/generateMap";
 
-function Board({boardMap: boardMap}) {
+type BoardProps = {
+    boardMap: boardMap,
+}
+const Board: React.FC<BoardProps> = ({ boardMap }) => {
     return (
         <div>
             {boardMap && boardMap.map((cellRow: cellObj[]) => {
-                    cellRow.map((cellObj: cellObj) => {
-                        <Cell cellObj={cellObj}/>
-                    })
+                    return cellRow.map((cellObj: cellObj) => (
+                        <div>1</div>
+                    ))
                 }
             )}
         </div>
