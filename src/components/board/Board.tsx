@@ -1,21 +1,24 @@
 import React from 'react';
 import {boardMap, cellObj} from "../../utils/generateMap";
+import Cell from './Cell';
 
 type BoardProps = {
     boardMap: boardMap,
+    handleClick: (x: number, y: number) => void,
 }
 
-const Board: React.FC<BoardProps> = ({ boardMap }) => {
+const Board = ({ boardMap, handleClick }: BoardProps) => {
+    console.log(handleClick)
     return (
-        <div>
-            {boardMap && boardMap.map((cellRow: cellObj[]) => {
-                    return cellRow.map((cellObj: cellObj) => (
-                        <div>1</div>
+        <div className="board">
+            {boardMap && boardMap.map((cellRow: cellObj[], x) => {
+                    return cellRow.map((cellObj: cellObj, y) => (
+                        <Cell cell={cellObj} onClick={() => handleClick(x, y)} />
                     ))
                 }
             )}
         </div>
-    );
+    )
 }
 
 export default Board;
