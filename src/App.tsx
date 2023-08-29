@@ -13,16 +13,39 @@ function App() {
         minesTotal: 10,
     })
 
-    // useEffect(() => {
-    //     const map = generateMap(boardSettings)
-    //     setBoardMap(map)
-    // }, [])
+    type gameStatus = 'notStarted' | 'inGame' | 'won' | 'lost'
+    const [gameStatus, setGameStatus] = useState<gameStatus>('notStarted')
+
+    const reset = (boardSettings: boardSettings): void => {
+        setBoardMap(generateMap(boardSettings))
+        setGameStatus('notStarted')
+    }
+
+    const [openedCells, setOpenCells] = useState(0)
+    const onClick = (cellX: number, cellY: number) => {
+        const handleClick = (cellX: number, cellY: number) => {
+            const cell = boardMap[cellX][cellY]
+            if (cell.isMine) {
+                setGameStatus('lost')
+                return
+            }
+            cell.isOpen = true
+            const boardMapCopy = [...[...boardMap]]
+            boardMapCopy[cellX][cellY].isOpen = true
+            setBoardMap(boardMapCopy)
+        }
+        switch (gameStatus) {
+            case 'won':
+            case 'lost': { return }
+            case 'notStarted': setGameStatus('inGame')
+            default: handleClick(cellX, cellY)
+        }
+    }
 
     return (
         <div className="App">
-            {boardMap && <Board boardMap={boardMap}/>}
+            {boardMap && <Board boardMap={boardMap} onClick={onClick}/>}
         </div>
     );
 }
-
 export default App;
